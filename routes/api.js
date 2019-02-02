@@ -37,15 +37,13 @@ module.exports = function (app) {
           return res.send('error retrieving books');
         }
 
-        res.json(books);
-
-        /*res.json((books || []).map(function(book) {
+        res.json((books || []).map(function(book) {
           return {
             _id: book._id,
             title: book.title,
             commentcount: book.commentcount,
           };
-        }));*/
+        }));
       });
     })
     
@@ -67,12 +65,10 @@ module.exports = function (app) {
           return res.send('could not save book');
         }
 
-        res.json(book);
-
-        /*res.json({
+        res.json({
           _id: book._id,
           title: book.title,
-        });*/
+        });
       });
     })
     
