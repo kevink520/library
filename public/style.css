@@ -133,6 +133,7 @@ input[type="text"] {
   border: none;
   margin-bottom: 20px;
   background: #fff;  
+  font-size: 16px;
 }
 
 br + input[type="text"] {
@@ -148,6 +149,7 @@ button:not(.user-stories-toggle-button) {
   border: none;
   margin-bottom: 20px;
   background: #7c5e4f;
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #fff;
