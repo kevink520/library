@@ -9,13 +9,9 @@
     <link rel="stylesheet" href="/public/style.css">
   </head>
   <body>
-    <header>
-      <h1>
-        <b>ISQA Project</b> - Personal Library
-      </h1>
-    </header>
-    <br>
-    <div id="userstories">
+    <button class="user-stories-toggle-button" type="button">User Stories</button>
+    <div class="user-stories" id="userstories">
+      <div class="user-stories-inner">
       <h2>User stories:</h2>
       <ol>
         <li>Nothing from my website will be cached in my client as a security measure.</li>
@@ -32,8 +28,14 @@
       <br>
       <img src='https://cdn.gomix.com/d7932c52-287f-4dae-b175-631fef453000%2FScreen%20Shot%202016-12-16%20at%201.35.56%20AM.png' />
     </div>
-    <hr style='margin: 50px'>
-    <div id ='sampleposting'>
+    </div>
+    <div class="main">
+    <div class="sample-posting" id='sampleposting'>
+      <div class="half-overlay">
+      <h1>
+        <b>ISQA Project</b> - Personal Library
+      </h1>
+      </div>
       <h2 style="text-align: left">Test API responses:</h2>
       <form action="/api/books" method="post" class="border">
         <h4>Test post to /api/books</h4>
@@ -50,21 +52,25 @@
         <input type="submit" value="Submit">
       </form>
     </div>
-    <hr style='margin: 50px'>
-    <div id='sampleui'>
+    <div class="sample-ui" id='sampleui'>
+      <div class="half-overlay">
+      <h1>
+        <b>ISQA Project</b> - Personal Library
+      </h1>
+      </div>
       <h2 style="text-align: left">Sample Front-End:</h2>
       <form id="newBookForm" class="border">
         <input type="text" id="bookTitleToAdd" name="title" placeholder="New Book Title" style="width: 295px">
         <button type="submit" value="Submit" id="newBook">Submit New Book!</button>
       </form>
       <div id='display'></div>          
-      <div id='bookDetail' class='border'>
+      <div id='bookDetail' class="book-detail">
         <p id='detailTitle'>Select a book to see it's details and comments</p>
         <ol id='detailComments'></ol>
       </div>
       <button id='deleteAllBooks'>Delete all books...</button>
     </div>
-    <hr style='margin: 50px'>
+    </div>
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
@@ -75,6 +81,17 @@
       *  For #sampleposting to update form action url to test inputs book id
       */
       $(function() {
+       $('.user-stories-toggle-button').on('click', function() {
+         var $button = $(this);
+         var $userStories = $('.user-stories');
+         if ($userStories.hasClass('is-active')) {
+           $userStories.removeClass('is-active');
+           $button.text('User Stories');
+         } else {
+           $userStories.addClass('is-active');
+           $button.text('Close');
+         }
+       });
        $('#commentTest').submit(function(){
          var id = $('#idinputtest').val();
          $(this).attr('action', "/api/books/" + id);
