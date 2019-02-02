@@ -22,23 +22,31 @@ $( document ).ready(function() {
   };
 
   getBooks();
-  
-  var comments = [];
-  $('#display').on('click','li.bookItem',function() {
-    $("#detailTitle").html('<b>'+itemsRaw[this.id].title+'</b> (id: '+itemsRaw[this.id]._id+')');
-    $.getJSON('/api/books/'+itemsRaw[this.id]._id, function(data) {
-      comments = [];
-      $.each(data.comments, function(i, val) {
-        comments.push('<li class="comment">' +val+ '</li>');
-      });
-      comments.push('<form id="newCommentForm" style="margin: 20px 0 0;"><input style="width:300px" type="text" class="form-control" id="commentToAdd" name="comment" placeholder="New Comment" style="margin: 20px 0;"></form>');
-      comments.push('<button class="btn btn-info addComment" id="'+ data._id+'" style="margin: 0 15px 20px 0;">Add Comment</button>');
-      comments.push('<button class="btn btn-danger deleteBook" id="'+ data._id+'" style="margin: 0 0 20px;">Delete Book</button>');
-      $('#detailComments').html(comments.join(''));
-    });
+  $('#newBookForm, #newCommentForm').on('submit', function(e) {
+    e.preventDefault();
+    $('input[type="text"]').val('');
   });
   
-  $('#bookDetail').on('click','button.deleteBook',function() {
+  var comments = [];
+  var bookItemClickHandler = function bookItemClickHandler() {
+    $('#display').off('click', 'li.bookItem').on('click','li.bookItem',function() {
+      $("#detailTitle").html('<b>'+itemsRaw[this.id].title+'</b> (id: '+itemsRaw[this.id]._id+')');
+      $.getJSON('/api/books/'+itemsRaw[this.id]._id, function(data) {
+        comments = [];
+        $.each(data.comments, function(i, val) {
+          comments.push('<li class="comment">' +val+ '</li>');
+        });
+        comments.push('<form id="newCommentForm" style="margin: 20px 0 0;"><input style="width:300px" type="text" class="form-control" id="commentToAdd" name="comment" placeholder="New Comment" style="margin: 20px 0;"></form>');
+        comments.push('<button class="btn btn-info addComment" id="'+ data._id+'" style="margin: 0 15px 20px 0;">Add Comment</button>');
+        comments.push('<button class="btn btn-danger deleteBook" id="'+ data._id+'" style="margin: 0 0 20px;">Delete Book</button>');
+        $('#detailComments').html(comments.join(''));
+      });
+    });
+  };
+
+  bookItemClickHandler();
+  
+  $('#bookDetail').on('click','button.deleteBook',function() { 
     $.ajax({
       url: '/api/books/'+this.id,
       type: 'delete',
@@ -73,7 +81,9 @@ $( document ).ready(function() {
       data: $('#newBookForm').serialize(),
       success: function(data) {
         if (items.length < 14) {
-          $('#display').append('<li class="bookItem" id="' + items.length + '">' + data.title + ' - ' + data.commentcount + ' comment' + (data.commentcount !== 1 ? 's' : '') + '</li>');
+          $('.listWrapper').append('<li class="bookItem" id="' + items.length + '">' + data.title + ' - 0 comments</li>');
+          itemsRaw.push(data);
+          bookItemClickHandler();
         }
       }
     });
@@ -91,8 +101,9 @@ $( document ).ready(function() {
       //dataType: 'json',
       data: $('#newBookForm').serialize(),
       success: function(data) {
-        $('#display').html('');
+        $('#display, #detailTitle').html('');
         $('#detailComments').html('<p style="color: red;">' + data + '</p>');
+        $('input[type="text"]').val('');
       }
     });
   });
