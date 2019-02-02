@@ -58,6 +58,7 @@ body {
   background: #7c5e4f;
   color: #fff;
   white-space: normal;
+  cursor: pointer;
 }
 
 .user-stories.is-active {
@@ -150,6 +151,7 @@ button:not(.user-stories-toggle-button) {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #fff;
+  cursor: pointer;
 }
 
 .book-detail {
