@@ -17,7 +17,7 @@
 		"lodash": "^4.17.15",
 		"mocha": "^5.2.0",
 		"mongodb": "^2.2.16",
-		"mongoose": "^5.4.9",
+		"mongoose": "^5.7.5",
 		"zombie": "^6.1.4"
 	},
 	"engines": {
